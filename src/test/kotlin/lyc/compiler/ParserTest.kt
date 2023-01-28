@@ -1,14 +1,16 @@
 package lyc.compiler
 
+import com.google.common.truth.Truth.assertThat
 import java_cup.runtime.Symbol
 import lyc.compiler.factories.ParserFactory
 import org.apache.commons.io.IOUtils
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.IOException
+import java.net.URL
 import java.nio.charset.StandardCharsets
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Assertions.assertThrows
+
 
 @Disabled
 class ParserTest {
@@ -100,8 +102,8 @@ class ParserTest {
 
     @Throws(IOException::class)
     private fun readFromFile(fileName: String): String {
-        val resource = javaClass.getResourceAsStream(String.format("/%s", fileName))
-        assertThat(resource).isNotNull()
-        return IOUtils.toString(resource, StandardCharsets.UTF_8)
+        val url = URL(EXAMPLES_ROOT_DIRECTORY + "/%s".formatted(fileName))
+        assertThat(url).isNotNull()
+        return IOUtils.toString(url.openStream(), StandardCharsets.UTF_8)
     }
 }
